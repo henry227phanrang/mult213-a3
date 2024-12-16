@@ -1,22 +1,31 @@
 import React, { useState } from "react";
+import axios from "axios";
 import WordList from "./components/WordList";
 
 function App() {
+  const [words, setWords] = useState([]);
   const [selectedWord, setSelectedWord] = useState(null);
 
-  // Hardcoded list of French words with meanings
-  const words = [
-    { french: "Bonjour", meaning: "Hello" },
-    { french: "Merci", meaning: "Thank you" },
-    { french: "Pomme", meaning: "Apple" },
-    { french: "Chat", meaning: "Cat" },
-    { french: "Chien", meaning: "Dog" },
-    { french: "Maison", meaning: "House" },
-    { french: "Livre", meaning: "Book" },
-    { french: "Eau", meaning: "Water" },
-    { french: "Fleur", meaning: "Flower" },
-    { french: "Voiture", meaning: "Car" },
-  ];
+  // Fetch live data function
+  const fetchWords = () => {
+    axios
+      .get("https://dummyjson.com/products")
+      .then((response) => {
+        const fetchedWords = response.data.products.slice(0, 5).map((product) => ({
+          french: product.title,
+          meaning: "Sample meaning",
+        }));
+        setWords(fetchedWords);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+      });
+  };
+
+  // Fetch words on initial render
+  React.useEffect(() => {
+    fetchWords();
+  }, []);
 
   return (
     <div style={{ textAlign: "center", marginTop: "20px" }}>
@@ -37,6 +46,21 @@ function App() {
       ) : (
         <h2>Select a word to see its meaning</h2>
       )}
+      <button
+        onClick={fetchWords}
+        style={{
+          margin: "20px",
+          padding: "10px 20px",
+          fontSize: "16px",
+          cursor: "pointer",
+          backgroundColor: "#27BB4D",
+          color: "#FFFFFF",
+          border: "none",
+          borderRadius: "5px",
+        }}
+      >
+        Refresh Words
+      </button>
       <WordList words={words} onWordClick={setSelectedWord} />
     </div>
   );
