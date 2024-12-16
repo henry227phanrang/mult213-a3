@@ -3,7 +3,7 @@ import React from "react";
 function WordList({ words, onWordClick }) {
   return (
     <div>
-      <h2>Word List (Fetched from API)</h2>
+      <h2>French Word List</h2>
       <ul style={{ listStyle: "none", padding: 0 }}>
         {words.map((word, index) => (
           <li
