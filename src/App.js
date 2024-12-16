@@ -1,53 +1,51 @@
 import React, { useState } from "react";
+import FrenchNumberGame from "./components/FrenchNumberGame";
 
 function App() {
-  const [selectedWord, setSelectedWord] = useState(null); // To store the clicked word
+  const [selectedWord, setSelectedWord] = useState(null);
 
-  // Hardcoded list of French words with their meanings
   const words = [
-    { french: "Bonjour", meaning: "Hello" },
-    { french: "Merci", meaning: "Thank you" },
-    { french: "Pomme", meaning: "Apple" },
-    { french: "Chat", meaning: "Cat" },
-    { french: "Chien", meaning: "Dog" },
-    { french: "Maison", meaning: "House" },
-    { french: "Livre", meaning: "Book" },
-    { french: "Fleur", meaning: "Flower" },
-    { french: "Voiture", meaning: "Car" },
-    { french: "Eau", meaning: "Water" },
+    { french: "Bonjour", meaning: "Hello", image: "/media/bonjour.jpg" },
+    { french: "Merci", meaning: "Thank you", image: "/media/merci.jpg" },
+    { french: "Pomme", meaning: "Apple", image: "/media/pomme.jpg" },
+    { french: "Chat", meaning: "Cat", image: "/media/chat.jpg" },
+    { french: "Chien", meaning: "Dog", image: "/media/chien.jpg" },
   ];
 
   return (
-    <div style={{ textAlign: "center", marginTop: "20px" }}>
-      <h1 style={{ backgroundColor: "#27BB4D", color: "#FFFFFF", padding: "10px", borderRadius: "5px" }}>
-        French Dictionary
-      </h1>
+    <div style={{ textAlign: "center" }}>
+      <h1 style={{ backgroundColor: "#27BB4D", color: "#FFF", padding: "10px" }}>French Dictionary</h1>
       {selectedWord ? (
-        <h2 style={{ fontSize: "24px", color: "#000", marginTop: "20px" }}>
-          <strong>{selectedWord.french}</strong> means "<em>{selectedWord.meaning}</em>"
-        </h2>
+        <div>
+          <img src={selectedWord.image} alt={selectedWord.french} style={{ width: "150px", marginTop: "20px" }} />
+          <h2>
+            <strong>{selectedWord.french}</strong> means "<em>{selectedWord.meaning}</em>"
+          </h2>
+        </div>
       ) : (
-        <h2 style={{ fontSize: "20px", color: "#555", marginTop: "20px" }}>Click on a word to see its meaning</h2>
+        <h2>Click on a word to see its meaning</h2>
       )}
-      <ul style={{ listStyle: "none", padding: 0, marginTop: "20px" }}>
+      <ul style={{ listStyle: "none", padding: 0 }}>
         {words.map((word, index) => (
           <li
             key={index}
             onClick={() => setSelectedWord(word)}
             style={{
-              cursor: "pointer",
+              display: "inline-block",
+              margin: "10px",
               padding: "10px",
               border: "1px solid #ccc",
-              margin: "5px",
-              display: "inline-block",
-              backgroundColor: "#f9f9f9",
               borderRadius: "5px",
+              cursor: "pointer",
             }}
           >
             {word.french}
           </li>
         ))}
       </ul>
+
+      {/* French Number Game */}
+      <FrenchNumberGame />
     </div>
   );
 }
