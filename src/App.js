@@ -1,67 +1,53 @@
 import React, { useState } from "react";
-import axios from "axios";
-import WordList from "./components/WordList";
 
 function App() {
-  const [words, setWords] = useState([]);
-  const [selectedWord, setSelectedWord] = useState(null);
+  const [selectedWord, setSelectedWord] = useState(null); // To store the clicked word
 
-  // Fetch live data function
-  const fetchWords = () => {
-    axios
-      .get("https://dummyjson.com/products")
-      .then((response) => {
-        const fetchedWords = response.data.products.slice(0, 5).map((product) => ({
-          french: product.title,
-          meaning: "Sample meaning",
-        }));
-        setWords(fetchedWords);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-      });
-  };
-
-  // Fetch words on initial render
-  React.useEffect(() => {
-    fetchWords();
-  }, []);
+  // Hardcoded list of French words with their meanings
+  const words = [
+    { french: "Bonjour", meaning: "Hello" },
+    { french: "Merci", meaning: "Thank you" },
+    { french: "Pomme", meaning: "Apple" },
+    { french: "Chat", meaning: "Cat" },
+    { french: "Chien", meaning: "Dog" },
+    { french: "Maison", meaning: "House" },
+    { french: "Livre", meaning: "Book" },
+    { french: "Fleur", meaning: "Flower" },
+    { french: "Voiture", meaning: "Car" },
+    { french: "Eau", meaning: "Water" },
+  ];
 
   return (
     <div style={{ textAlign: "center", marginTop: "20px" }}>
-      <h1
-        style={{
-          backgroundColor: "#27BB4D",
-          color: "#FFFFFF",
-          padding: "10px",
-          borderRadius: "5px",
-        }}
-      >
-        Welcome to the French Learning App
+      <h1 style={{ backgroundColor: "#27BB4D", color: "#FFFFFF", padding: "10px", borderRadius: "5px" }}>
+        French Dictionary
       </h1>
       {selectedWord ? (
-        <h2>
-          <strong>{selectedWord.french}</strong> means "{selectedWord.meaning}"
+        <h2 style={{ fontSize: "24px", color: "#000", marginTop: "20px" }}>
+          <strong>{selectedWord.french}</strong> means "<em>{selectedWord.meaning}</em>"
         </h2>
       ) : (
-        <h2>Select a word to see its meaning</h2>
+        <h2 style={{ fontSize: "20px", color: "#555", marginTop: "20px" }}>Click on a word to see its meaning</h2>
       )}
-      <button
-        onClick={fetchWords}
-        style={{
-          margin: "20px",
-          padding: "10px 20px",
-          fontSize: "16px",
-          cursor: "pointer",
-          backgroundColor: "#27BB4D",
-          color: "#FFFFFF",
-          border: "none",
-          borderRadius: "5px",
-        }}
-      >
-        Refresh Words
-      </button>
-      <WordList words={words} onWordClick={setSelectedWord} />
+      <ul style={{ listStyle: "none", padding: 0, marginTop: "20px" }}>
+        {words.map((word, index) => (
+          <li
+            key={index}
+            onClick={() => setSelectedWord(word)}
+            style={{
+              cursor: "pointer",
+              padding: "10px",
+              border: "1px solid #ccc",
+              margin: "5px",
+              display: "inline-block",
+              backgroundColor: "#f9f9f9",
+              borderRadius: "5px",
+            }}
+          >
+            {word.french}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
