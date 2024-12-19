@@ -20,7 +20,7 @@ const FrenchNumberGame = () => {
     nextQuestion();
   };
 
-  // Load the next number question
+  // Move to the next question
   const nextQuestion = () => {
     clearInterval(timerRef.current);
     const randomNum = numbersRange[Math.floor(Math.random() * numbersRange.length)];
@@ -29,7 +29,6 @@ const FrenchNumberGame = () => {
     setTimer(5);
     playAudio(randomNum);
 
-    // Start the timer
     timerRef.current = setInterval(() => {
       setTimer((prev) => {
         if (prev <= 1) {
@@ -54,13 +53,21 @@ const FrenchNumberGame = () => {
     clearInterval(timerRef.current);
   };
 
-  // Validate the input
+  // Validate input
   useEffect(() => {
     if (parseInt(input) === currentNumber) {
       setStreak((prev) => prev + 1);
       nextQuestion();
     }
   }, [input, currentNumber]);
+
+  // Handle input change to accept only numbers
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {
+      setInput(value);
+    }
+  };
 
   return (
     <div style={{ textAlign: "center", marginTop: "40px" }}>
@@ -86,10 +93,10 @@ const FrenchNumberGame = () => {
           </button>
           <div style={{ marginTop: "20px" }}>
             <input
-              type="number"
+              type="text"
               placeholder="Type the number here"
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={handleInputChange}
               style={{ fontSize: "18px", padding: "5px", textAlign: "center" }}
             />
           </div>
@@ -111,7 +118,7 @@ const buttonStyle = {
   margin: "10px",
   padding: "10px 20px",
   fontSize: "16px",
-  backgroundColor: "#2A9D8F",
+  backgroundColor: "#27BB4D",
   color: "white",
   border: "none",
   borderRadius: "5px",
